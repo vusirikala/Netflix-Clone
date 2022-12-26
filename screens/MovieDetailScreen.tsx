@@ -1,19 +1,30 @@
 import { AntDesign, Entypo, Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import React from 'react'
+import React, {useState, useRef} from 'react'
 import {StyleSheet, Image, Text, View, FlatList, Pressable} from 'react-native';
+import {Picker} from '@react-native-picker/picker'
 
 import movie from '../assets/data/movie';
 import EpisodeItem from '../components/EpisodeItem';
 
 export default function MovieDetailScreen() {
-
+    const pickerRef = useRef();
     const firstEpisode = movie.seasons.items[0].episodes.items[0];
+    const [currentSeason, setCurrentSeason] = useState(movie.seasons.items[0])
+    const seasonNames = movie.seasons.items.map(season => season.name)
+    // function open() {
+    //     pickerRef.current.focus();
+    // }
+      
+    // function close() {
+    //     pickerRef.current.blur();
+    // }
+
     return (
         <View>
             <Image style={styles.image} source={{uri: firstEpisode.poster }} />  
             
             <FlatList
-                data={movie.seasons.items[0].episodes.items}
+                data={currentSeason.episodes.items}
                 renderItem={({item}) => <EpisodeItem episode={item} />}
                 style={{marginBottom: 300}}
                 ListHeaderComponent={(
@@ -44,6 +55,7 @@ export default function MovieDetailScreen() {
                         <Text style={styles.year}>Cast: {movie.cast}</Text>
                         <Text style={styles.year}>Createor: {movie.creator}</Text>
 
+                        
                         <View style={{flexDirection: 'row', marginTop: 20}}>
                             <View style={{alignItems: 'center', marginHorizontal: 45}}>
                                 <AntDesign name='plus' size={24} color='white' />
@@ -60,6 +72,16 @@ export default function MovieDetailScreen() {
                                 <Text style={{color: 'darkgrey'}}>Share</Text>
                             </View>
                         </View>
+
+                        <Picker
+                            selectedValue={currentSeason.name}
+                            onValueChange={(itemValue, itemIndex) => {setCurrentSeason(movie.seasons.items[itemIndex])} }
+                            itemStyle={{color: 'white'}}
+                            dropdownIconColor={'white'}
+                        >
+                            {seasonNames.map(seasonName => <Picker.Item label={seasonName} value={seasonName} key={seasonName} />) }
+                        </Picker>
+
                     </View>
                 )}
             />
