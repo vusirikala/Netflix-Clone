@@ -7,7 +7,7 @@ import categories from '../assets/data/categories';
 import HomeCategory from '../components/HomeCategory';
 
 
-export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
+export default function HomeScreen({ navigation }: RootTabScreenProps<'HomeTab'>) {
   const firstCategory = categories.items[0];
   
   return (

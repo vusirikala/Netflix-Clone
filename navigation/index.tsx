@@ -16,8 +16,9 @@ import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { HomeParamList, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import MovieDetailScreen from '../screens/MovieDetailScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -47,6 +48,28 @@ function RootNavigator() {
   );
 }
 
+
+const HomeStack = createNativeStackNavigator<HomeParamList>();
+function HomeNavigator() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="MovieDetail"
+        component={MovieDetailScreen}
+        options={{
+          title: ""
+        }}
+      />
+      <HomeStack.Screen
+        name="HomeScrn"
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
+
+      </HomeStack.Navigator>
+  )
+}
+
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
@@ -58,14 +81,14 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeTab"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={({ navigation }: RootTabScreenProps<'Home'>) => ({
+        name="HomeTab"
+        component={HomeNavigator}
+        options={({ navigation }: RootTabScreenProps<'HomeTab'>) => ({
           title: 'Home',
           tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
           headerRight: () => (
