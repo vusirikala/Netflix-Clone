@@ -78,6 +78,7 @@ export default function MovieDetailScreen() {
                             onValueChange={(itemValue, itemIndex) => {setCurrentSeason(movie.seasons.items[itemIndex])} }
                             itemStyle={{color: 'white'}}
                             dropdownIconColor={'white'}
+                            style={{color: 'white'}}
                         >
                             {seasonNames.map(seasonName => <Picker.Item label={seasonName} value={seasonName} key={seasonName} />) }
                         </Picker>
