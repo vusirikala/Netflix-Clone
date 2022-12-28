@@ -1,0 +1,45 @@
+type Category @model {
+  id: ID!
+  title: String!
+
+  # By defining the below connection, whenever we fetch a Category, we will be able to get all the movies the category contains. 
+  movies: [Movie] @hasMany(indexName: "byCategory", fields: ["id"])
+}
+
+type Movie @model {
+  id: ID!
+  title: String!
+  poster: String!
+  
+  year: Int
+  numberOfSeasons: Int
+  
+  plot: String
+  cast: String
+  creator: String
+
+  categoryId: ID! @index(name: "byCategory", sortKeyFields: ["id"])
+
+  seasons: [Season] @hasMany
+}
+
+type Season @model {
+  id: ID!
+  name: String!
+  movieId: ID!
+  # With below connection, when we fetch season, we will also get details of the movie. 
+  movie: Movie  @belongsTo
+  episodes: [Episode] @hasMany
+}
+
+type Episode @model {
+  id: ID!
+  title: String!
+  poster: String!
+  duration: String!
+  plot: String
+  video: String!
+  seasonId: ID!  @index(name: "bySeason", sortKeyFields: ["id"])
+  # By querying about the Episode, we will also get the details of the season
+  season: Season @belongsTo
+}
